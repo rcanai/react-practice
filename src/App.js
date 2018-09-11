@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
+import Task from './components/Task.js';
 
 class App extends Component {
   // コンストラクターを記述
@@ -8,18 +9,24 @@ class App extends Component {
     this.state = {
       // タスク用の配列データを設定
       tasks: [
-        { title: 'タスク1', done: false },
-        { title: 'タスク2', done: true },
-        { title: 'タスク3', done: false },
+        { id: 1, title: 'タスク1', done: false },
+        { id: 2, title: 'タスク2', done: true },
+        { id: 3, title: 'タスク3', done: false },
       ],
     };
+    this.changeDone = this.changeDone.bind(this);
   }
 
   // タスクの状態を変更
-  changeDone (index) {
+  changeDone (taskId) {
     // 配列のコピーを作成して対象のインデックスのタスクを書き換える
-    const tasks = [...this.state.tasks];
-    tasks[index].done = !tasks[index].done;
+    const tasks = this.state.tasks.map((task) => {
+      return {...task};
+    });
+    const targetTask = tasks.find((task) => {
+      return task.id === taskId;
+    });
+    targetTask.done = !targetTask.done;
     this.setState({tasks: tasks});
   }
 
@@ -32,16 +39,13 @@ class App extends Component {
           <output>1/3</output>
         </div>
         <ul className="tasks">
-          {this.state.tasks.map((task, index) => {
-            return <li key={index}>
-              <label>
-                <input
-                  type="checkbox"
-                  checked={task.done}
-                  onChange={() => this.changeDone(index)} />
-                <span>{task.title}</span>
-              </label>
-            </li>;
+          {this.state.tasks.map((task) => {
+            return (
+            <Task
+              key={task.id}
+              task={task}
+              changeDone={this.changeDone}></Task>
+            )
           })}
         </ul>
       </div>
