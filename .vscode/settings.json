@@ -1,0 +1,11 @@
+{
+  "eslint.options": {
+    "extensions": [".js"]
+  },
+  "eslint.validate": [
+      "javascript",
+      "javascriptreact"
+  ],
+  "eslint.enable": true,
+  "eslint.autoFixOnSave": true,
+}

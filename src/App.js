@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import Task from './components/Task.js';
+import Task from './components/Task';
 
 class App extends Component {
   // コンストラクターを記述
@@ -18,16 +18,12 @@ class App extends Component {
   }
 
   // タスクの状態を変更
-  changeDone (taskId) {
+  changeDone(taskId) {
     // 配列のコピーを作成して対象のインデックスのタスクを書き換える
-    const tasks = this.state.tasks.map((task) => {
-      return {...task};
-    });
-    const targetTask = tasks.find((task) => {
-      return task.id === taskId;
-    });
+    const tasks = this.state.tasks.map((task) => ({...task}));
+    const targetTask = tasks.find((task) => task.id === taskId);
     targetTask.done = !targetTask.done;
-    this.setState({tasks: tasks});
+    this.setState({ tasks });
   }
 
   render() {
@@ -39,14 +35,12 @@ class App extends Component {
           <output>1/3</output>
         </div>
         <ul className="tasks">
-          {this.state.tasks.map((task) => {
-            return (
+          {this.state.tasks.map((task) => (
             <Task
               key={task.id}
               task={task}
               changeDone={this.changeDone}></Task>
-            )
-          })}
+            ))}
         </ul>
       </div>
     );
