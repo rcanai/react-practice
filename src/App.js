@@ -15,15 +15,22 @@ class App extends Component {
       ],
     };
     this.changeDone = this.changeDone.bind(this);
+    this.doneCount = this.doneCount.bind(this);
   }
 
   // タスクの状態を変更
   changeDone(taskId) {
-    // 配列のコピーを作成して対象のインデックスのタスクを書き換える
-    const tasks = this.state.tasks.map((task) => ({...task}));
-    const targetTask = tasks.find((task) => task.id === taskId);
-    targetTask.done = !targetTask.done;
-    this.setState({ tasks });
+    this.setState((state) => {
+      const tasks = state.tasks.map(task => ({ ...task }));
+      const targetTask = tasks.find(task => task.id === taskId);
+      targetTask.done = !targetTask.done;
+      return { tasks };
+    });
+  }
+
+  // 完了したタスクの件数を返す
+  doneCount() {
+    return this.state.tasks.filter(t => t.done).length;
   }
 
   render() {
@@ -32,15 +39,20 @@ class App extends Component {
         <h1>タスク一覧</h1>
         <div>
           <span>完了:</span>
-          <output>1/3</output>
+          <output>
+            {this.doneCount()}
+            /
+            {this.state.tasks.length}
+          </output>
         </div>
         <ul className="tasks">
-          {this.state.tasks.map((task) => (
+          {this.state.tasks.map(task => (
             <Task
               key={task.id}
               task={task}
-              changeDone={this.changeDone}></Task>
-            ))}
+              changeDone={this.changeDone}
+            />
+          ))}
         </ul>
       </div>
     );

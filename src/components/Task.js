@@ -1,21 +1,30 @@
-import React, { Component } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import './Task.css';
 
-export default class Task extends Component {
-  constructor (props) {
-    super(props);
-  }
-  render () {
-    return (
-      <li key={this.props.task.id}>
-        <label>
-          <input
-            type="checkbox"
-            checked={this.props.task.done}
-            onChange={ () => this.props.changeDone(this.props.task.id) } />
-          <span>{this.props.task.title}</span>
-        </label>
-      </li>
-    );
-  }
-}
+const Task = props => (
+  <li key={props.task.id} className="task-item">
+    <label htmlFor={`task-done${props.task.id}`}>
+      <input
+        type="checkbox"
+        checked={props.task.done}
+        id={`task-done${props.task.id}`}
+        onChange={() => props.changeDone(props.task.id)}
+      />
+      <span className={props.task.done ? 'done' : ''}>
+        {props.task.title}
+      </span>
+    </label>
+  </li>
+);
+
+Task.propTypes = {
+  task: PropTypes.shape({
+    id: PropTypes.string,
+    done: PropTypes.bool,
+    title: PropTypes.string,
+  }).isRequired,
+  changeDone: PropTypes.func.isRequired,
+};
+
+export default Task;
