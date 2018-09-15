@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Task from './components/Task';
+import TaskForm from './components/TaskForm';
 
 class App extends Component {
   // コンストラクターを記述
@@ -13,9 +14,13 @@ class App extends Component {
         { id: 2, title: 'タスク2', done: true },
         { id: 3, title: 'タスク3', done: false },
       ],
+      // タスク追加用のデータを設定
+      text: '',
     };
     this.changeDone = this.changeDone.bind(this);
     this.doneCount = this.doneCount.bind(this);
+    this.updateValue = this.updateValue.bind(this);
+    this.addTask = this.addTask.bind(this);
   }
 
   // タスクの状態を変更
@@ -33,6 +38,35 @@ class App extends Component {
     return this.state.tasks.filter(t => t.done).length;
   }
 
+  // タスク追加用の文字列を更新
+  updateValue(event) {
+    this.setState({
+      text: event.target.value,
+    });
+  }
+
+  // タスクを追加
+  addTask() {
+    if (!this.state.text) {
+      // 空文字は無効とする
+      return;
+    }
+    this.setState((state) => {
+      const maxId = Math.max.apply(
+        null,
+        state.tasks.map(t => t.id),
+      );
+      const tasks = state.tasks.map(task => ({ ...task }));
+      tasks.push({
+        id: maxId + 1,
+        title: state.text,
+        done: false,
+      });
+      return { tasks };
+    });
+    this.setState({ text: '' });
+  }
+
   render() {
     return (
       <div className="App">
@@ -45,6 +79,11 @@ class App extends Component {
             {this.state.tasks.length}
           </output>
         </div>
+        <TaskForm
+          text={this.state.text}
+          updateValue={this.updateValue}
+          addTask={this.addTask}
+        />
         <ul className="tasks">
           {this.state.tasks.map(task => (
             <Task

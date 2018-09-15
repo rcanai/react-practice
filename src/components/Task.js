@@ -20,7 +20,7 @@ const Task = props => (
 
 Task.propTypes = {
   task: PropTypes.shape({
-    id: PropTypes.string,
+    id: PropTypes.number,
     done: PropTypes.bool,
     title: PropTypes.string,
   }).isRequired,

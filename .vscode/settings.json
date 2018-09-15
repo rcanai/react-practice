@@ -6,6 +6,20 @@
       "javascript",
       "javascriptreact"
   ],
+
   "eslint.enable": true,
   "eslint.autoFixOnSave": true,
+
+  "emmet.includeLanguages": {
+    "javascript": "javascriptreact",
+    "vue-html": "html"
+  },
+  "emmet.syntaxProfiles": {
+    "html": {
+      "attr_quotes": "single"
+    },
+    "jsx": {
+      "self_closing_tag": true
+    }
+  }
 }
