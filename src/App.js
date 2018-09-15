@@ -21,6 +21,7 @@ class App extends Component {
     this.doneCount = this.doneCount.bind(this);
     this.updateValue = this.updateValue.bind(this);
     this.addTask = this.addTask.bind(this);
+    this.removeTask = this.removeTask.bind(this);
   }
 
   // タスクの状態を変更
@@ -56,7 +57,7 @@ class App extends Component {
         null,
         state.tasks.map(t => t.id),
       );
-      const tasks = state.tasks.map(task => ({ ...task }));
+      const tasks = [...state.tasks];
       tasks.push({
         id: maxId + 1,
         title: state.text,
@@ -65,6 +66,14 @@ class App extends Component {
       return { tasks };
     });
     this.setState({ text: '' });
+  }
+
+  // タスクを削除
+  removeTask(taskId) {
+    this.setState((state) => {
+      const tasks = [...state.tasks].filter(t => t.id !== taskId);
+      return { tasks };
+    });
   }
 
   render() {
@@ -90,6 +99,7 @@ class App extends Component {
               key={task.id}
               task={task}
               changeDone={this.changeDone}
+              removeTask={this.removeTask}
             />
           ))}
         </ul>

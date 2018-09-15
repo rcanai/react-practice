@@ -15,6 +15,13 @@ const Task = props => (
         {props.task.title}
       </span>
     </label>
+    <button
+      type="button"
+      className="remove-task"
+      onClick={() => props.removeTask(props.task.id)}
+    >
+      &times;
+    </button>
   </li>
 );
 
@@ -25,6 +32,7 @@ Task.propTypes = {
     title: PropTypes.string,
   }).isRequired,
   changeDone: PropTypes.func.isRequired,
+  removeTask: PropTypes.func.isRequired,
 };
 
 export default Task;
